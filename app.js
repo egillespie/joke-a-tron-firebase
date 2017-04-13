@@ -52,6 +52,31 @@ var updateDisplayedJoke = function () {
   jokeBox.textContent = requestedJokeKey
 }
 
+// Remember a joke
+var rememberJoke = function () {
+  var newJokeKey = document.getElementById('newJokeKey')
+  var newJokeSetup = document.getElementById('newJokeSetup')
+  var newJokePunchline = document.getElementById('newJokePunchline')
+
+  firebase.database().ref('jokes').child(newJokeKey.value).set({
+    setup: newJokeSetup.value,
+    punchline: newJokePunchline.value
+  })
+
+  newJokeKey.value = ''
+  newJokeSetup.value = ''
+  newJokePunchline.value = ''
+}
+
+// Forget a joke
+var forgetJoke = function () {
+  var badJokeKey = document.getElementById('badJokeKey')
+
+  firebase.database().ref('jokes').child(badJokeKey.value).remove()
+
+  badJokeKey.value = ''
+}
+
 // Function to keep track of all other
 // page update functions, so that we
 // can call them all at once
@@ -73,3 +98,5 @@ updatePage()
 
 // Keep the requested joke up-to-date
 requestedJokeInput.addEventListener('input', updateDisplayedJoke)
+document.getElementById('remember').addEventListener('click', rememberJoke)
+document.getElementById('forget').addEventListener('click', forgetJoke)

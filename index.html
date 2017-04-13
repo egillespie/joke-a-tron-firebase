@@ -30,15 +30,15 @@
           <h2>Teach me a new joke 🤓</h2>
 
           <label>The joke is about:</label>
-          <input type="text" class="u-full-width">
+          <input id="newJokeKey" type="text" class="u-full-width">
 
           <label>The setup is:</label>
-          <textarea class="u-full-width"></textarea>
+          <textarea id="newJokeSetup" class="u-full-width"></textarea>
 
           <label>The punchline is:</label>
-          <textarea class="u-full-width"></textarea>
+          <textarea id="newJokePunchline" class="u-full-width"></textarea>
 
-          <button class="u-full-width">
+          <button id="remember" class="u-full-width">
             Remember this joke!
           </button>
         </div>
@@ -46,14 +46,15 @@
           <h2>Erase my memory 😢</h2>
 
           <label>I don't like the joke about:</label>
-          <input type="text" class="u-full-width">
+          <input id="badJokeKey" type="text" class="u-full-width">
 
-          <button class="u-full-width">
+          <button id="forget" class="u-full-width">
             Forget about it!
           </button>
         </div>
       </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/3.7.6/firebase.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
