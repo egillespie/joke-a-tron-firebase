@@ -1,3 +1,15 @@
+// Initialize Firebase
+var config = {
+  apiKey: 'AIzaSyD0ad33Xon8PkZqbtm5mBVTRlX-ONT-Nzg',
+  authDomain: 'joke-a-tron-9000.firebaseapp.com',
+  databaseURL: 'https://joke-a-tron-9000.firebaseio.com',
+  projectId: 'joke-a-tron-9000',
+  storageBucket: 'joke-a-tron-9000.appspot.com',
+  messagingSenderId: '87962746854'
+}
+firebase.initializeApp(config)
+firebase.auth().signInAnonymously()
+
 // ----
 // DATA
 // ----
