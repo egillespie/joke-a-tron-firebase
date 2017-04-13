@@ -48,8 +48,21 @@ var updateJokesMenu = function () {
 var requestedJokeInput = document.getElementById('requested-joke')
 var jokeBox = document.getElementById('joke-box')
 var updateDisplayedJoke = function () {
-  var requestedJokeKey = requestedJokeInput.value
-  jokeBox.textContent = requestedJokeKey
+  var requestedJokeKey = requestedJokeInput.value.trim()
+
+  if (requestedJokeKey) {
+    firebase.database().ref('jokes').child(requestedJokeKey).once('value')
+    .then(function (jokeSnapshot) {
+      if (jokeSnapshot.exists()) {
+        var joke = jokeSnapshot.val()
+        jokeBox.innerHTML = '<p>' + joke.setup + '</p><p>' + joke.punchline + '</p'
+      } else {
+        jokeBox.textContent = noJokesMessage
+      }
+    })
+  } else {
+    jokeBox.textContent = noJokesMessage
+  }
 }
 
 // Remember a joke
