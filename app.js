@@ -14,27 +14,43 @@ firebase.auth().signInAnonymously()
 // DATA
 // ----
 
-// A couple jokes to start with
-var jokes = {
-  'the horse': {
-    setup: 'A horse walks into the bar. The bartender asks...',
-    punchline: 'Why the long face?'
-  },
-  'Orion\'s pants': {
-    setup: 'How does Orion keep his pants up?',
-    punchline: 'With an asteroid belt.'
-  }
-}
-
 // The message to display if the jokes object is empty
 var noJokesMessage = 'I... I don\'t know any jokes. 😢'
+
+// HTML elements
+var requestedJokeInput = document.getElementById('requested-joke')
+var jokeBox = document.getElementById('joke-box')
+var jokesMenuList = document.getElementById('jokes-menu')
 
 // -------------
 // PAGE UPDATERS
 // -------------
 
+// Add the joke to the list
+var jokeAdded = function (jokeSnapshot) {
+  jokesMenuList.innerHTML += '<li>' + jokeSnapshot.key + '</li>'
+}
+
+// Set the displayed joke
+var jokeChanged = function (jokeSnapshot) {
+  setDisplayedJoke(jokeSnapshot.key)
+}
+
+// Remove the joke from the list
+var jokeRemoved = function (jokeSnapshot) {
+  var listItems = document.getElementsByTagName('li')
+  for (var i = 0; i < listItems.length; i++) {
+    if (listItems[i].textContent === jokeSnapshot.key) {
+      listItems[i].parentElement.removeChild(listItems[i])
+      if (requestedJokeInput.value === jokeSnapshot.key) {
+        setDisplayedJoke('')
+      }
+      break
+    }
+  }
+}
+
 // Update the listed jokes, based on the jokes object
-var jokesMenuList = document.getElementById('jokes-menu')
 var updateJokesMenu = function () {
   // Don't worry too much about this code for now.
   // You'll learn how to do advanced stuff like
@@ -44,9 +60,13 @@ var updateJokesMenu = function () {
   jokesMenuList.innerHTML = '<li>' + jokeKeyListItems + '</li>'
 }
 
+// Set displayed joke to a specific value
+var setDisplayedJoke = function (jokeKey) {
+  requestedJokeInput.value = jokeKey
+  updateDisplayedJoke()
+}
+
 // Update the displayed joke, based on the requested joke
-var requestedJokeInput = document.getElementById('requested-joke')
-var jokeBox = document.getElementById('joke-box')
 var updateDisplayedJoke = function () {
   var requestedJokeKey = requestedJokeInput.value.trim()
 
@@ -79,31 +99,21 @@ var rememberJoke = function () {
   newJokeKey.value = ''
   newJokeSetup.value = ''
   newJokePunchline.value = ''
+  setDisplayedJoke('')
 }
 
 // Forget a joke
 var forgetJoke = function () {
   var badJokeKey = document.getElementById('badJokeKey')
-
   firebase.database().ref('jokes').child(badJokeKey.value).remove()
-
   badJokeKey.value = ''
-}
-
-// Function to keep track of all other
-// page update functions, so that we
-// can call them all at once
-var updatePage = function () {
-  updateJokesMenu()
-  updateDisplayedJoke()
 }
 
 // -------
 // STARTUP
 // -------
 
-// Update the page immediately on startup
-updatePage()
+updateDisplayedJoke()
 
 // ---------------
 // EVENT LISTENERS
@@ -113,3 +123,7 @@ updatePage()
 requestedJokeInput.addEventListener('input', updateDisplayedJoke)
 document.getElementById('remember').addEventListener('click', rememberJoke)
 document.getElementById('forget').addEventListener('click', forgetJoke)
+
+firebase.database().ref('jokes').on('child_added', jokeAdded)
+firebase.database().ref('jokes').on('child_changed', jokeChanged)
+firebase.database().ref('jokes').on('child_removed', jokeRemoved)
