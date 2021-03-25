@@ -2,13 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Joke-a-tron 9001</title>
+    <title>Joke-a-tron 9000</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
-      <h1>🤖 Joke-a-tron 9001 🤖</h1>
+      <h1>🤖 Joke-a-tron 9000 🤖</h1>
 
       <div class="row">
         <div class="six columns">
@@ -30,15 +30,15 @@
           <h2>Teach me a new joke 🤓</h2>
 
           <label>The joke is about:</label>
-          <input id="newJokeKey" type="text" class="u-full-width">
+          <input id="remember-joke-key" type="text" class="u-full-width">
 
           <label>The setup is:</label>
-          <textarea id="newJokeSetup" class="u-full-width"></textarea>
+          <textarea id="remember-joke-setup" class="u-full-width"></textarea>
 
           <label>The punchline is:</label>
-          <textarea id="newJokePunchline" class="u-full-width"></textarea>
+          <textarea id="remember-joke-punchline" class="u-full-width"></textarea>
 
-          <button id="remember" class="u-full-width">
+          <button id="remember-joke-button" class="u-full-width">
             Remember this joke!
           </button>
         </div>
@@ -46,16 +46,16 @@
           <h2>Erase my memory 😢</h2>
 
           <label>I don't like the joke about:</label>
-          <input id="badJokeKey" type="text" class="u-full-width">
+          <input id="forget-joke-key" type="text" class="u-full-width">
 
-          <button id="forget" class="u-full-width">
+          <button id="forget-joke-button" class="u-full-width">
             Forget about it!
           </button>
         </div>
       </div>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/3.7.6/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
